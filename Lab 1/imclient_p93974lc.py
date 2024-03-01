@@ -57,7 +57,7 @@ class Client:
     def connect(self):
         if self.getStatus() == 'closing':
             self.server.clear()
-        if len(self.server.keys()) == 1:
+        if len(self.server.keys()) <= 1:
             self.setStatus('0')
         if self.getStatus() == '0':
             print("User 1 Connected!")
@@ -72,10 +72,11 @@ class Client:
         elif self.getStatus() == 'User1Connecting':
             print("Another user is currently connecting, please try again in 1 second.")
             sys.exit()
-        elif self.getStatus() == 'ready':
+        elif self.getStatus() == 'ready' or self.getStatus() == 'messageSent' or self.getStatus() == 'messageReceived':
             print("There are already two users! Try again later.")
             sys.exit()
         else:
+            print("An error has occurred, exiting...")
             sys.exit()
 
     def waitForUser2(self):
@@ -122,7 +123,7 @@ class Client:
                     print("Other user has received message.")
                     self.setStatus('ready')
                     return
-                print(f"{self.RED}\nOther user has disconnected. Shutting down the server...{self.RESET}")
+                print(f"{self.RED}\nOther user has disconnected. Resetting and leaving the server...{self.RESET}")
                 self.closeServer()
         except KeyboardInterrupt:
             print(f"{self.RED}\nKeyboard Interrupt detected, closing connection to server...{self.RESET}")
@@ -136,8 +137,8 @@ class Client:
                     self.setStatus('messageReceived')
                     self.setTurn(self.token)
                     return
-                time.sleep(0.5)
-            print(f"{self.RED}\nOther user has disconnected. Shutting down the server...{self.RESET}")
+                time.sleep(1)
+            print(f"{self.RED}\nOther user has disconnected. Resetting and leaving the server...{self.RESET}")
             self.closeServer()
         except KeyboardInterrupt:
             print(f"{self.RED}\nKeyboard Interrupt detected, closing connection to server...{self.RESET}")
@@ -153,7 +154,7 @@ class Client:
                 else:
                     self.receiveMessage()
                 time.sleep(0.5)
-            print(f"{self.RED}\nOther user has disconnected. Shutting down the server...{self.RESET}")
+            print(f"{self.RED}\nOther user has disconnected. Resetting and leaving the server...{self.RESET}")
             self.closeServer()
         except KeyboardInterrupt:
             print(f"{self.RED}\nKeyboard Interrupt detected, closing connection to server...{self.RESET}")
