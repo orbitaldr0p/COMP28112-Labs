@@ -52,9 +52,6 @@ class Client:
         self.server.clear()
         sys.exit()
 
-    def connectionChecker(self):
-        pass
-
     # ------------------------------------------------------------------------------------------------
 
     def connect(self):
