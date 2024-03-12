@@ -23,7 +23,11 @@ class myServer(Server):
 
     def onMessage(self, socket, message):
         print("A User has sent a message")
-        socket.send(message.encode())
+        message = message.split()
+        command = message[0]
+        arguments = message[1:]
+
+        print(f"command: {command}, arguments: {arguments}")
         return True
 
 
