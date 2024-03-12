@@ -19,7 +19,7 @@ class myServer(Server):
 
     def onDisconnect(self, socket):
         self.users -= 1
-        print(f"User has disconnected. Currently, {self.users} {'user' if self.users == 1 else 'users'} are connected.")
+        print(f"User has disconnected. Currently, {self.users} {'user is' if self.users == 1 else 'users are'}  connected.")
 
     def onMessage(self, socket, message):
         print("A User has sent a message")
