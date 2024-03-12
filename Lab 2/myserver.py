@@ -24,7 +24,8 @@ class myServer(Server):
     def onMessage(self, socket, message):
         print("A User has sent a message")
         socket.send(message.encode())
-        
+        return True
+
 
 server = myServer()
 
