@@ -7,6 +7,7 @@ port = int(sys.argv[2])
 class myServer(Server):
 
     def __init__(self):
+        super(myServer, self).__init__()
         self.users = 0
 
     def onStart(self):
@@ -14,7 +15,7 @@ class myServer(Server):
     
     def onConnect(self, socket):
         self.users += 1
-        print(f"User has connected. Currently, {self.users} {'user' if self.users == 1 else 'users'} are connected.")
+        print(f"User has connected. Currently, {self.users} {'user is' if self.users == 1 else 'users are'} connected.")
 
     def onDisconnect(self, socket):
         self.users -= 1
