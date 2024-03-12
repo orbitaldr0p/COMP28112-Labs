@@ -6,14 +6,19 @@ port = int(sys.argv[2])
 
 class myServer(Server):
 
+    def __init__(self):
+        self.users = 0
+
     def onStart(self):
         print("Server has started")
     
     def onConnect(self, socket):
-        print("User has connected")
+        self.users += 1
+        print(f"User has connected. Currently, {self.users} {'user' if self.users == 1 else 'users'} are connected.")
 
     def onDisconnect(self, socket):
-        print("User has disconnected")
+        self.users -= 1
+        print(f"User has disconnected. Currently, {self.users} {'user' if self.users == 1 else 'users'} are connected.")
 
 server = myServer()
 
