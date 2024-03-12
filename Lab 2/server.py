@@ -8,32 +8,32 @@ start() method passing the IP address on which to listen (most likely 127.0.0.1)
 the TCP port number (greater than 1024). The Server class should be subclassed here, 
 implementing some or all of the following five events. 
 
-  onStart(self)
-      This is called when the server starts - i.e. shortly after the start() method is
-      executed. Any server-wide variables should be created here.
-      
-  onStop(self)
-      This is called just before the server stops, allowing you to clean up any server-
-      wide variables you may still have set.
-      
-  onConnect(self, socket)
-      This is called when a client starts a new connection with the server, with that
-      connection's socket being provided as a parameter. You may store connection-
-      specific variables directly in this socket object. You can do this as follows:
-          socket.myNewVariableName = myNewVariableValue      
-      e.g. to remember the time a specific connection was made you can store it thus:
-          socket.connectionTime = time.time()
-      Such connection-specific variables are then available in the following two
-      events.
+    onStart(self)
+        This is called when the server starts - i.e. shortly after the start() method is
+        executed. Any server-wide variables should be created here.
 
-  onMessage(self, socket, message)
-      This is called when a client sends a new-line delimited message to the server.
-      The message paramater DOES NOT include the new-line character.
+    onStop(self)
+        This is called just before the server stops, allowing you to clean up any server-
+        wide variables you may still have set.
 
-  onDisconnect(self, socket)
-      This is called when a client's connection is terminated. As with onConnect(),
-      the connection's socket is provided as a parameter. This is called regardless of
-      who closed the connection.
+    onConnect(self, socket)
+        This is called when a client starts a new connection with the server, with that
+        connection's socket being provided as a parameter. You may store connection-
+        specific variables directly in this socket object. You can do this as follows:
+            socket.myNewVariableName = myNewVariableValue      
+        e.g. to remember the time a specific connection was made you can store it thus:
+            socket.connectionTime = time.time()
+        Such connection-specific variables are then available in the following two
+        events.
+
+    onMessage(self, socket, message)
+        This is called when a client sends a new-line delimited message to the server.
+        The message parameter DOES NOT include the new-line character.
+
+    onDisconnect(self, socket)
+        This is called when a client's connection is terminated. As with onConnect(),
+        the connection's socket is provided as a parameter. This is called regardless of
+        who closed the connection.  
 
 """
 
