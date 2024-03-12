@@ -21,6 +21,11 @@ class myServer(Server):
         self.users -= 1
         print(f"User has disconnected. Currently, {self.users} {'user' if self.users == 1 else 'users'} are connected.")
 
+    def onMessage(self, socket, message):
+        print("A User has sent a message")
+        socket.send(message.encode())
+        
+
 server = myServer()
 
 # Start server
