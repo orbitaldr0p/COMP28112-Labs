@@ -24,16 +24,38 @@ class myServer(Server):
         print(f"User has disconnected. Currently, {self.userCount} {'user is' if self.userCount == 1 else 'users are'}  connected.")
 
     def onMessage(self, socket, message):
-        print("A User has sent a message")
         if message[0] == "/":
+            print("A user has sent a command")
             message = message.split()
             command = message[0].replace("/", "")
             arguments = message[1:]
-
-            print(f"command: {command}, arguments: {arguments}")
-        
+            match command:
+                case "help":
+                    self.help(socket)
+                case "setname":
+                    self.setName(socket, arguments)
+                case _:
+                    self.invalid(socket)
+        else:
+            print("A user has sent a message")
         return True
 
+    def invalid(self, socket):
+        socket.send(("Invalid command. Type /help to get a list of commands.").encode())
+
+    def help(self, socket):
+        commands = "Available Commands:\n"\
+                "/setname <username>: sets your current name in the system \n"\
+                "/whisper <username> <message>: sends a message to the specified user \n"\
+                "/list: lists the users that are currently online\n"\
+                "/quit: exists the system \n"\
+                "type something without using a command to send it to the entire system \n"\
+                .encode()
+        socket.send(commands)
+
+
+    def setName(self,socket, arguments):
+        print("setName")
 
 server = myServer()
 
