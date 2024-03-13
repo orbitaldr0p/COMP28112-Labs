@@ -31,13 +31,15 @@ class myServer(Server):
         if socket in self.users:
             quitMessage = f"{self.users[socket]} has disconnected. Currently, {self.userCount} {'user is' if self.userCount == 1 else 'users are'} connected."
             print(quitMessage)
-            #self.broadcast(quitMessage)
-            #WHY DOES BROADCAST CAUSE PROBLEMS HERE BUT WORKS FINE EVERYWHERE ELSE??????
+            # self.broadcast(quitMessage)
+            # WHY DOES BROADCAST CAUSE PROBLEMS HERE BUT WORKS FINE EVERYWHERE ELSE??????
             del self.users[socket]
+            
         else:
             print(
                 f"User has disconnected. Currently, {self.userCount} {'user is' if self.userCount == 1 else 'users are'} connected."
             )
+        del socket #is the needed?
 
     def onMessage(self, socket, message):
         if message[0] == "/":
