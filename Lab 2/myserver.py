@@ -83,7 +83,28 @@ class myServer(Server):
         socket.send(f"Currently online users:\n{online}".encode())
 
     def whisper(self, socket, arguments):
-        pass
+        if socket in self.users:
+            if len(arguments) == 0:
+                socket.send("You have not specified who the recipient is".encode())
+            elif len(arguments) == 1:
+                socket.send("You have not specified the message to send.".encode())
+            else:
+                receiver = arguments[0]
+                message = " ".join(arguments[1:])
+                receiverSocket = None
+                for key, value in self.users.items():
+                    if value == receiver:
+                        receiverSocket = key
+                        break
+                if receiverSocket == socket:
+                    socket.send("You can't whisper to yourself.".encode())
+                elif receiverSocket is not None:
+                    socket.send("Message Sent.".encode())
+                    receiverSocket.send(f"Private message from {self.users[socket]}: {message}".encode())
+                else:
+                    socket.send("The user you are whispering to does not exist.".encode())
+        else:
+            socket.send("You have not assigned yourself a name yet.".encode())
 
     def quit(self, socket):
         socket.send("Quitting out.".encode())
