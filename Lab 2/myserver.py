@@ -117,7 +117,6 @@ class myServer(Server):
         socket.send("Quitting out.".encode())
         socket.close()
         # TODO STOP socket.close() FROM BREAKING SERVER
-        return True
 
     def postMessage(self, socket, message):
         if socket in self.users:
