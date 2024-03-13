@@ -77,7 +77,9 @@ class myServer(Server):
             else:
                 socket.send(f"Your username is set to {arguments[0]}.".encode())
                 self.users[socket] = arguments[0]
-                self.broadcast(f"{arguments[0]} Has just joined the server.")
+                self.broadcast(
+                    f"{arguments[0]} Has just joined the server. Currently, {self.userCount} {'user is' if self.userCount == 1 else 'users are'} connected."
+                )
 
     def list(self, socket):
         online = "\n".join(list(self.users.values()))
@@ -101,9 +103,13 @@ class myServer(Server):
                     socket.send("You can't whisper to yourself.".encode())
                 elif receiverSocket is not None:
                     socket.send("Message Sent.".encode())
-                    receiverSocket.send(f"Private message from {self.users[socket]}: {message}".encode())
+                    receiverSocket.send(
+                        f"Private message from {self.users[socket]}: {message}".encode()
+                    )
                 else:
-                    socket.send("The user you are whispering to does not exist.".encode())
+                    socket.send(
+                        "The user you are whispering to does not exist.".encode()
+                    )
         else:
             socket.send("You have not assigned yourself a name yet.".encode())
 
