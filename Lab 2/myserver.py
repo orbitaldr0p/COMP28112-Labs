@@ -26,6 +26,19 @@ class myServer(Server):
             f"User has connected. Currently, {self.userCount} {'user is' if self.userCount == 1 else 'users are'} connected."
         )
 
+    def onDisconnect(self, socket):
+        self.userCount -= 1
+        if socket in self.users:
+            quitMessage = f"{self.users[socket]} has disconnected. Currently, {self.userCount} {'user is' if self.userCount == 1 else 'users are'} connected."
+            print(quitMessage)
+            #self.broadcast(quitMessage)
+            #WHY DOES BROADCAST CAUSE PROBLEMS HERE BUT WORKS FINE EVERYWHERE ELSE??????
+            del self.users[socket]
+        else:
+            print(
+                f"User has disconnected. Currently, {self.userCount} {'user is' if self.userCount == 1 else 'users are'} connected."
+            )
+
     def onMessage(self, socket, message):
         if message[0] == "/":
             print("A user has sent a command")
@@ -43,6 +56,7 @@ class myServer(Server):
                     self.whisper(socket, arguments)
                 case "quit":
                     self.quit(socket)
+                    return False
                 case _:
                     self.invalid(socket)
         else:
@@ -116,7 +130,6 @@ class myServer(Server):
     def quit(self, socket):
         socket.send("Quitting out.".encode())
         socket.close()
-        # TODO STOP socket.close() FROM BREAKING SERVER
 
     def postMessage(self, socket, message):
         if socket in self.users:
@@ -125,21 +138,9 @@ class myServer(Server):
         else:
             socket.send("You have not assigned yourself a name yet.".encode())
 
-    def broadcast(self, message):
+    def broadcast(self, msg):
         for i in self.users:
-            i.send(message.encode())
-
-    def onDisconnect(self, socket):
-        self.userCount -= 1
-        if socket in self.users:
-            quitMessage = f"{self.users[socket]} has disconnected. Currently, {self.userCount} {'user is' if self.userCount == 1 else 'users are'}  connected."
-            print(quitMessage)
-            self.broadcast(quitMessage)
-            del self.users[socket]
-        else:
-            print(
-                f"User has disconnected. Currently, {self.userCount} {'user is' if self.userCount == 1 else 'users are'}  connected."
-            )
+            i.send(msg.encode())
 
 
 server = myServer()
