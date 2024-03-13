@@ -40,6 +40,7 @@ class myServer(Server):
                     self.invalid(socket)
         else:
             print("A user has sent a message")
+            self.postMessage(socket, message)
         return True
 
     def invalid(self, socket):
@@ -82,6 +83,17 @@ class myServer(Server):
         socket.close()
         #TODO STOP socket.close() FROM BREAKING SERVER
         return True
+    
+    def postMessage(self, socket, message):
+        if socket in self.users:
+            msg = f"{self.users[socket]}: {message}"
+            self.broadcast(msg)
+        else:
+            socket.send("You have not assigned yourself a name yet.".encode())
+
+    def broadcast(self, message):
+        for i in self.users:
+            i.send(message.encode())
 
     def onDisconnect(self, socket):
         self.userCount -= 1
