@@ -8,7 +8,7 @@ class myServer(Server):
 
     def __init__(self):
         super(myServer, self).__init__()
-        self.users = set({})
+        self.users = {}
         self.userCount = 0
 
     def onStart(self):
@@ -34,6 +34,8 @@ class myServer(Server):
                     self.help(socket)
                 case "setname":
                     self.setName(socket, arguments)
+                case "list":
+                    self.list(socket)
                 case _:
                     self.invalid(socket)
         else:
@@ -41,7 +43,7 @@ class myServer(Server):
         return True
 
     def invalid(self, socket):
-        socket.send(("Invalid command. Type /help to get a list of commands.").encode())
+        socket.send("Invalid command. Type /help to get a list of commands.".encode())
 
     def help(self, socket):
         commands = "Available Commands:\n"\
@@ -53,9 +55,24 @@ class myServer(Server):
                 .encode()
         socket.send(commands)
 
-
     def setName(self,socket, arguments):
-        print("setName")
+        if len(arguments) > 1:
+            socket.send("Your username can't contain spaces!".encode())
+        elif len(arguments) == 0:
+            socket.send("You didn't enter a username.".encode())
+        else:
+            if arguments[0] in self.users.values():
+                socket.send("That username is already taken!".encode())
+            elif socket in self.users:
+                socket.send("You have already chosen a username!".encode())
+            else:
+                socket.send(f"Your username is set to {arguments[0]}.".encode())
+                self.users[socket] = arguments[0]
+                
+
+    def list(self,socket):
+        online = '\n'.join(list(self.users.values()))
+        socket.send(f"Currently online users:\n{online}".encode())
 
 server = myServer()
 
