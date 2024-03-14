@@ -45,20 +45,19 @@ class myServer(Server):
             message = message.split()
             command = message[0].replace("/", "")
             arguments = message[1:]
-            match command:
-                case "help":
-                    self.help(socket)
-                case "setname":
-                    self.setName(socket, arguments)
-                case "list":
-                    self.list(socket)
-                case "whisper":
-                    self.whisper(socket, arguments)
-                case "quit":
-                    self.quit(socket)
-                    return False
-                case _:
-                    self.invalid(socket)
+            if command == "help":
+                self.help(socket)
+            elif command == "setname":
+                self.setName(socket, arguments)
+            elif command == "list":
+                self.list(socket)
+            elif command == "whisper":
+                self.whisper(socket, arguments)
+            elif command == "quit":
+                self.quit(socket)
+                return False
+            else:
+                self.invalid(socket)
         else:
             print("A user has sent a message")
             self.postMessage(socket, message)
