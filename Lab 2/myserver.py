@@ -19,7 +19,7 @@ class myServer(Server):
         self.userCount += 1
         socket.send(
             (
-                "Welcome to the chatroom! Please give yourself a name by typing /setname <name>."
+                "Welcome to the server! Please give yourself a name by typing /setname <name>."
             ).encode()
         )
         print(
@@ -34,12 +34,10 @@ class myServer(Server):
             # self.broadcast(quitMessage)
             # WHY DOES BROADCAST CAUSE PROBLEMS HERE BUT WORKS FINE EVERYWHERE ELSE??????
             del self.users[socket]
-            
         else:
             print(
                 f"User has disconnected. Currently, {self.userCount} {'user is' if self.userCount == 1 else 'users are'} connected."
             )
-        del socket #is the needed?
 
     def onMessage(self, socket, message):
         if message[0] == "/":
@@ -75,8 +73,9 @@ class myServer(Server):
             "/setname <username>: sets your current name in the system \n"
             "/whisper <username> <message>: sends a message to the specified user \n"
             "/list: lists the users that are currently online\n"
-            "/quit: exi3ts the system \n"
-            "type something without using a command to send it to the entire system \n".encode()
+            "/quit: exits the system \n"
+            "/help: shows the list of valid commands \n"
+            "type something without using a command to send it to everyone in the entire system \n".encode()
         )
         socket.send(commands)
 
