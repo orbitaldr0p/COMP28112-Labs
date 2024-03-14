@@ -1,6 +1,10 @@
 import sys
 from ex2utils import Server
 
+if len(sys.argv) != 3:
+    print("Usage: python ./myserver.py <ip address> <port>")
+    sys.exit()
+
 ip = sys.argv[1]
 port = int(sys.argv[2])
 
