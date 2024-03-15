@@ -34,7 +34,7 @@ class myServer(Server):
     def onDisconnect(self, socket):
         self.userCount -= 1
         if socket in self.users:
-            self.registeredUserCount -= 0
+            self.registeredUserCount -= 1
             quitMessage = f"{self.users[socket]} has disconnected. Currently, {self.userCount} {'user is' if self.userCount == 1 else 'users are'} connected."
             print(quitMessage)
             # self.broadcast(quitMessage)
@@ -99,7 +99,7 @@ class myServer(Server):
                 socket.send(f"Your username is set to {arguments[0]}.".encode())
                 self.users[socket] = arguments[0]
                 self.broadcast(
-                    f"{arguments[0]} Has just joined the server. Currently, {self.registeredUserCount} {'registered user is' if self.userCount == 1 else 'registered users are'} connected."
+                    f"{arguments[0]} Has just joined the server. Currently, {self.registeredUserCount} {'registered user is' if self.registeredUserCount == 1 else 'registered users are'} connected."
                 )
 
     def list(self, socket):
