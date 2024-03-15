@@ -22,8 +22,9 @@ class myClient(Client):
         super(myClient, self).__init__()
 
     def onMessage(self, socket, message):
-        print(message)
+        print("\033[94m" + message + "\033[0m")
         return True
+
 
     def onDisconnect(self, socket):
         global state
