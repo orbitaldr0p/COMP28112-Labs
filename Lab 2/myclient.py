@@ -1,3 +1,16 @@
+"""
+    1. cd into the directory containing myserver.py and myclient.py.
+    2. Run the server by running python ./myserver.py <ip> <port>
+    3. open three or more additional terminals and run python ./myclient.py <ip> <port> where the ip and port is the same as the server's
+    4. You will be prompted to use /setname to give yourself a name, do so.
+    5. Enter the command /help to get a list of all commands available. 
+    6. To send a message to everyone in the server, just type in the message without running any commands
+    7. Run /list to get a list of all users that are online
+    8. Run /whisper <recipient> <message> to send a private message to the recipient
+    9. Run /quit to disconnect from the server and exit the client.
+"""
+
+
 import sys
 from ex2utils import Client
 
