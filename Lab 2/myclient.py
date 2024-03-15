@@ -10,11 +10,11 @@
     9. Run /quit to disconnect from the server and exit the client.
 """
 
-
 import sys
 from ex2utils import Client
 
 state = 1
+
 
 class myClient(Client):
 
@@ -22,13 +22,14 @@ class myClient(Client):
         super(myClient, self).__init__()
 
     def onMessage(self, socket, message):
-            print(message)
-            return True
+        print(message)
+        return True
 
     def onDisconnect(self, socket):
-            global state
-            print("Disconnected from server")
-            state = 0
+        global state
+        print("Disconnected from server")
+        state = 0
+
 
 if len(sys.argv) != 3:
     print("Usage: python ./myclient.py <ip address> <port>")
